@@ -99,7 +99,7 @@ rm -r $ROOTFS/usr/share/zoneinfo/*
 mv $ROOTFS/root/UTC $ROOTFS/usr/share/zoneinfo
 
 # umount the mountpoint; after this point, we can not use $CHROOT anymore
-umount -r $ROOTFS
+sync && umount -r $ROOTFS && sync
 
 # udev doesnt work in containers, rebuild /dev
 rm -rf root.x86_64/dev
@@ -117,12 +117,14 @@ mknod -m 666 root.x86_64/dev/full c 1 7
 mknod -m 600 root.x86_64/dev/initctl p
 mknod -m 666 root.x86_64/dev/ptmx c 5 2
 ln -sf /proc/self/fd root.x86_64/dev/fd
+sync
 
 # make a docker image locally
-tar --numeric-owner --xattrs --acls -C root.x86_64 -c . | docker import - pychuang/oldarch:$DATE
+IMGNAME="oldarch:base$(echo $DATE | sed 's/\.//g')"
+tar --numeric-owner --xattrs --acls -C root.x86_64 -c . | docker import - $IMGNAME
 
 # return a success message from inside Docker container
-docker run --rm=true -t pychuang/oldarch:$DATE echo Success.
+docker run --rm=true -t $IMGNAME echo Success.
 
 # remove files
 rm $BOOTSTRAP
