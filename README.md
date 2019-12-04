@@ -82,3 +82,34 @@ The base image is supposed to be used as the base layer of other images.
 Another thing is that, to minimize the image size, all non-`en_US` locale files
 are removed. 
 All manpages, documentation, and GNU info files are also removed.
+
+## Deluxe image
+
+The deluxe version of the image can be pulled from Docker Hub with
+
+```
+$ docker pull pychuang/oldarch:deluxe20160801
+```
+
+The following packages are installed to satisfy my personal preference:
+1. termite-terminfo 11-3
+2. git 2.9.2-1
+3. vim 7.4.1910-1
+4. python 3.5.2-1
+5. python2 2.7.12-1
+6. htop 2.0.2-1
+7. wget 1.18-1
+8. zsh 5.7.1-1 (from package archive, not from the package repository snapshot on 2016-08-01)
+9. zsh-completions 0.31.0-1 (from package archive, not from the package repository snapshot on 2016-08-01)
+10. zsh-syntax-highlighting 0.6.0-1 (from package archive, not from the package repository snapshot on 2016-08-01)
+
+The default shell is zsh.
+Also, the zsh configuration is global (hard-coded in `/etc/zsh/zshrc`) and is
+tuned based on my personal preference.
+
+The image can also be built locally through (assuming the user has privilege 
+to build/create images):
+
+```
+$ docker build -t oldarch:deluxe20160801 Dockerfile.deluxe .
+```
