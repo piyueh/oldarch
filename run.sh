@@ -1,5 +1,6 @@
 #! /bin/sh
 #
+# Copyright © 2019 Pi-Yueh Chuang <pychuang@gwu.edu>
 # Distributed under terms of the MIT license.
 #
 # Credit: https://github.com/moby/moby/blob/master/contrib/mkimage-arch.sh

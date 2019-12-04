@@ -1,9 +1,9 @@
-# Dockerfile.conda
+# Dockerfile.deluxe
 #
-# This Dockerfile creates an Arch Linux image with Miniconda and glibc 2.23, 
-# which is the last # version of glibc compatible with Linux kernel v2.6.
+# This Dockerfile creates an Arch Linux image with glibc 2.23 and some unnecessary
+# but my personal preferred packages. See README for details. 
 #
-# Copyright © 2018-2019 Pi-Yueh Chuang <pychuang@gwu.edu>
+# Copyright © 2019 Pi-Yueh Chuang <pychuang@gwu.edu>
 # Distributed under terms of the BSD 3-Clause license.
 
 # base image
