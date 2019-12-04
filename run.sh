@@ -100,7 +100,7 @@ rm -r $ROOTFS/usr/share/zoneinfo/*
 mv $ROOTFS/root/UTC $ROOTFS/usr/share/zoneinfo
 
 # umount the mountpoint; after this point, we can not use $CHROOT anymore
-sync && umount -r $ROOTFS && sync
+sync && umount -R $ROOTFS && sync
 
 # udev doesnt work in containers, rebuild /dev
 rm -rf root.x86_64/dev
