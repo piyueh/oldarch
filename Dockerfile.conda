@@ -1,0 +1,29 @@
+# Dockerfile.conda
+#
+# This Dockerfile creates an Arch Linux image with glibc 2.23, miniconda, and 
+# pytorch-gpu+h5py through conda.
+#
+# Copyright © 2019 Pi-Yueh Chuang <pychuang@gwu.edu>
+# Distributed under terms of the BSD 3-Clause license.
+
+# base image
+FROM pychuang/oldarch:fancybase20160801
+
+# download miniconda and install it
+RUN cd /root \
+ && export CONDAURL="https://repo.anaconda.com/miniconda" \
+ && export CONDAEXE="Miniconda3-latest-Linux-x86_64.sh"\
+ && export CONDASHA="bfe34e1fa28d6d75a7ad05fd02fa5472275673d5f5621b77380898dee1be15d2" \
+ && curl -LO "$CONDAURL/$CONDAEXE"  \
+ && echo "$CONDASHA $CONDAEXE" | sha256sum -c \
+ && sh $CONDAEXE -b -f -p /opt/anaconda \
+ && rm $CONDAEXE \
+ && source /opt/anaconda/bin/activate base \
+ && conda install -y pytorch-gpu h5py \
+ && conda clean --all \
+ && echo "source /opt/anaconda/bin/activate base" >> /etc/zsh/zshenv
+
+# persistent variables (for both image creation and runtime)
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# vim:ft=dockerfile

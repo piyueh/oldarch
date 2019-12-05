@@ -1,84 +1,18 @@
 # Dockerfile.deluxe
 #
-# This Dockerfile creates an Arch Linux image with glibc 2.23 and some unnecessary
-# but my personal preferred packages. See README for details. 
+# This Dockerfile creates an Arch Linux image with glibc 2.23 and some
+# unnecessary but my personal preferred packages. See README for details. 
 #
 # Copyright © 2019 Pi-Yueh Chuang <pychuang@gwu.edu>
 # Distributed under terms of the BSD 3-Clause license.
 
 # base image
-FROM pychuang/oldarch:base20160801
+FROM pychuang/oldarch:fancybase20160801
 
-# download miniconda and install it
+# install
 RUN pacman -Syy \
- && pacman -S --noconfirm \
-        termite-terminfo git vim python python2 htop wget \
- && yes | pacman -Scc \
- && export ARCVURL=https://archive.archlinux.org/packages \
- && wget -c ${ARCVURL}/z/zsh/zsh-5.7.1-1-x86_64.pkg.tar.xz \
- && wget -c ${ARCVURL}/z/zsh-completions/zsh-completions-0.31.0-1-any.pkg.tar.xz \
- && wget -c ${ARCVURL}/z/zsh-syntax-highlighting/zsh-syntax-highlighting-0.6.0-1-any.pkg.tar.xz \
- && pacman -U --noconfirm zsh-5.7.1-1-x86_64.pkg.tar.xz \
- && pacman -U --noconfirm zsh-completions-0.31.0-1-any.pkg.tar.xz \
- && pacman -U --noconfirm zsh-syntax-highlighting-0.6.0-1-any.pkg.tar.xz \
- && rm zsh-5.7.1-1-x86_64.pkg.tar.xz \
- && rm zsh-completions-0.31.0-1-any.pkg.tar.xz \
- && rm zsh-syntax-highlighting-0.6.0-1-any.pkg.tar.xz \
- && chsh -s /bin/zsh \
- && echo "autoload -Uz compinit promptinit" > /etc/zsh/zshrc \
- && echo "setopt completealiases" >> /etc/zsh/zshrc \
- && echo "setopt HIST_IGNORE_DUPS" >> /etc/zsh/zshrc \
- && echo "setopt nohashdirs" >> /etc/zsh/zshrc \
- && echo "setopt extended_glob" >> /etc/zsh/zshrc \
- && echo "compinit" >> /etc/zsh/zshrc \
- && echo "promptinit" >> /etc/zsh/zshrc \
- && echo "prompt bigfade" >> /etc/zsh/zshrc \
- && echo "alias ls='ls --color=auto'" >> /etc/zsh/zshrc \
- && echo "zstyle ':completion:*' menu select" >> /etc/zsh/zshrc \
- && echo "setopt COMPLETE_ALIASES" >> /etc/zsh/zshrc \
- && echo "zstyle ':completion::complete:*' gain-privileges 1" >> /etc/zsh/zshrc \
- && echo "typeset -g -A key" >> /etc/zsh/zshrc \
- && echo "autoload -Uz up-line-or-beginning-search down-line-or-beginning-search" >> /etc/zsh/zshrc \
- && echo "zle -N up-line-or-beginning-search" >> /etc/zsh/zshrc \
- && echo "zle -N down-line-or-beginning-search" >> /etc/zsh/zshrc \
- && echo "key[Home]=\"\${terminfo[khome]}\"" >> /etc/zsh/zshrc \
- && echo "key[End]=\"\${terminfo[kend]}\"" >> /etc/zsh/zshrc \
- && echo "key[Insert]=\"\${terminfo[kich1]}\"" >> /etc/zsh/zshrc \
- && echo "key[Backspace]=\"\${terminfo[kbs]}\"" >> /etc/zsh/zshrc \
- && echo "key[Delete]=\"\${terminfo[kdch1]}\"" >> /etc/zsh/zshrc \
- && echo "key[Up]=\"\${terminfo[kcuu1]}\"" >> /etc/zsh/zshrc \
- && echo "key[Down]=\"\${terminfo[kcud1]}\"" >> /etc/zsh/zshrc \
- && echo "key[Left]=\"\${terminfo[kcub1]}\"" >> /etc/zsh/zshrc \
- && echo "key[Right]=\"\${terminfo[kcuf1]}\"" >> /etc/zsh/zshrc \
- && echo "key[PageUp]=\"\${terminfo[kpp]}\"" >> /etc/zsh/zshrc \
- && echo "key[PageDown]=\"\${terminfo[knp]}\"" >> /etc/zsh/zshrc \
- && echo "key[ShiftTab]=\"\${terminfo[kcbt]}\"" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Home]}\" ]] && bindkey -- \"\${key[Home]}\" beginning-of-line" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[End]}\" ]] && bindkey -- \"\${key[End]}\" end-of-line" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Insert]}\" ]] && bindkey -- \"\${key[Insert]}\" overwrite-mode" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Backspace]}\" ]] && bindkey -- \"\${key[Backspace]}\" backward-delete-char" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Delete]}\" ]] && bindkey -- \"\${key[Delete]}\" delete-char" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Up]}\" ]] && bindkey -- \"\${key[Up]}\" up-line-or-beginning-search" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Down]}\" ]] && bindkey -- \"\${key[Down]}\" down-line-or-beginning-search" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Left]}\" ]] && bindkey -- \"\${key[Left]}\" backward-char" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[Right]}\" ]] && bindkey -- \"\${key[Right]}\" forward-char" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[PageUp]}\" ]] && bindkey -- \"\${key[PageUp]}\" beginning-of-buffer-or-history" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[PageDown]}\" ]] && bindkey -- \"\${key[PageDown]}\" end-of-buffer-or-history" >> /etc/zsh/zshrc \
- && echo "[[ -n \"\${key[ShiftTab]}\" ]] && bindkey -- \"\${key[ShiftTab]}\" reverse-menu-complete" >> /etc/zsh/zshrc \
- && echo "if (( \${+terminfo[smkx]} && \${+terminfo[rmkx]} )); then" >> /etc/zsh/zshrc \
- && echo "  autoload -Uz add-zle-hook-widget" >> /etc/zsh/zshrc \
- && echo "  function zle_application_mode_start {" >> /etc/zsh/zshrc \
- && echo "    echoti smkx" >> /etc/zsh/zshrc \
- && echo "  }" >> /etc/zsh/zshrc \
- && echo "  function zle_application_mode_stop {" >> /etc/zsh/zshrc \
- && echo "    echoti rmkx" >> /etc/zsh/zshrc \
- && echo "  }" >> /etc/zsh/zshrc \
- && echo "  add-zle-hook-widget -Uz zle-line-init zle_application_mode_start" >> /etc/zsh/zshrc \
- && echo "  add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop" >> /etc/zsh/zshrc \
- && echo "fi" >> /etc/zsh/zshrc \
- && echo "bindkey \"^[[1;5D\" backward-word" >> /etc/zsh/zshrc \
- && echo "bindkey \"^[[1;5C\" forward-word" >> /etc/zsh/zshrc \
- && echo "source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> /etc/zsh/zshrc
+ && pacman -S --noconfirm git vim python python2 htop wget w3m imlib2 \
+ && yes | pacman -Scc
 
 CMD ["/bin/zsh"]
 
