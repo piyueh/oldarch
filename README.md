@@ -86,14 +86,14 @@ All manpages, documentation, and GNU info files are also removed.
 ## Fancy base image
 
 This version just adds vi, zsh, and zsh configurations to the base image. It
-can be pulled from Docker Gub through:
+can be pulled from Docker Hub through:
 
 ```
 $ docker pull pychuang/oldarch:fancybase20160801
 ```
 
 The default shell is zsh.
-And the version of zsh is 5.7.1-1, which is downloaded from lated archlinux
+And the version of zsh is 5.7.1-1, which is downloaded from the latest archlinux
 repository (as of 2019-12-05).
 Also, the zsh configuration is global (hard-coded in `/etc/zsh/zshrc`) and is
 tuned based on my personal preference.
@@ -107,7 +107,8 @@ $ docker build -t oldarch:fancybase20160801 Dockerfile.fancybase .
 
 ## Deluxe image
 
-This version adds more packages to `fancybase20160801` to meet my personal use:
+This version adds more packages to `fancybase20160801` to meet my personal use at the 
+login nodes of HPC clusters:
 
 1. termite-terminfo 11-3
 2. git 2.9.2-1
@@ -139,7 +140,7 @@ and the base environment is activate by default no matter it's a login shell
 or not.
 Python version is 3.7.
 The purpose of this image is to run things at remote HPC clusters, so the image
-does not have any extra python package except the dependencies of miniconda, 
+does not have any extra python packages except the dependencies of miniconda, 
 pytorch, and h5py.
 Due to the cuda and mkl libraries, the image size is not trivial. So, be aware.
 
