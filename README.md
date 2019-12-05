@@ -83,15 +83,32 @@ Another thing is that, to minimize the image size, all non-`en_US` locale files
 are removed. 
 All manpages, documentation, and GNU info files are also removed.
 
+## Fancy base image
+
+This version just adds vi, zsh, and zsh configurations to the base image. It
+can be pulled from Docker Gub through:
+
+```
+$ docker pull pychuang/oldarch:fancybase20160801
+```
+
+The default shell is zsh.
+And the version of zsh is 5.7.1-1, which is downloaded from lated archlinux
+repository (as of 2019-12-05).
+Also, the zsh configuration is global (hard-coded in `/etc/zsh/zshrc`) and is
+tuned based on my personal preference.
+
+The image can be built locally through (assuming the user has privilege 
+to build/create images):
+
+```
+$ docker build -t oldarch:fancybase20160801 Dockerfile.fancybase .
+```
+
 ## Deluxe image
 
-The deluxe version of the image can be pulled from Docker Hub with
+This version adds more packages to `fancybase20160801` to meet my personal use:
 
-```
-$ docker pull pychuang/oldarch:deluxe20160801
-```
-
-The following packages are installed to satisfy my personal preference:
 1. termite-terminfo 11-3
 2. git 2.9.2-1
 3. vim 7.4.1910-1
@@ -99,17 +116,41 @@ The following packages are installed to satisfy my personal preference:
 5. python2 2.7.12-1
 6. htop 2.0.2-1
 7. wget 1.18-1
-8. zsh 5.7.1-1 (from package archive, not from the package repository snapshot on 2016-08-01)
-9. zsh-completions 0.31.0-1 (from package archive, not from the package repository snapshot on 2016-08-01)
-10. zsh-syntax-highlighting 0.6.0-1 (from package archive, not from the package repository snapshot on 2016-08-01)
+8. w3m 0.5.3.git20160413-1
+9. imlib2 1.4.9-1
 
-The default shell is zsh.
-Also, the zsh configuration is global (hard-coded in `/etc/zsh/zshrc`) and is
-tuned based on my personal preference.
+To pull the image from Docker Hub:
 
-The image can also be built locally through (assuming the user has privilege 
-to build/create images):
+```
+$ docker pull pychuang/oldarch:deluxe20160801
+```
+
+To build the image locally:
 
 ```
 $ docker build -t oldarch:deluxe20160801 Dockerfile.deluxe .
+```
+
+## Image with PyTorch (v1.3.1 gpu version), h5py and miniconda
+
+This image adds miniconda, PyTorch, and h5py to `fancybase20160801` image.
+The whole python ecosystem in this image is provided by the miniconda installed,
+and the base environment is activate by default no matter it's a login shell
+or not.
+Python version is 3.7.
+The purpose of this image is to run things at remote HPC clusters, so the image
+does not have any extra python package except the dependencies of miniconda, 
+pytorch, and h5py.
+Due to the cuda and mkl libraries, the image size is not trivial. So, be aware.
+
+To pull the image from Docker Hub:
+
+```
+$ docker pull pychuang/oldarch:torchgpu20160801
+```
+
+To build the image locally:
+
+```
+$ docker build -t oldarch:torchgpu20160801 Dockerfile.conda .
 ```
