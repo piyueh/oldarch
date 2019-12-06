@@ -20,10 +20,23 @@ RUN cd /root \
  && rm $CONDAEXE \
  && source /opt/anaconda/bin/activate base \
  && conda install -y pytorch-gpu h5py \
- && conda clean --all \
- && echo "source /opt/anaconda/bin/activate base" >> /etc/zsh/zshenv
+ && conda clean --all
 
 # persistent variables (for both image creation and runtime)
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# wrapping the exec command with first sourcing anaconda's base environment
+RUN cd / \
+ && echo "#!/bin/sh" >> /bin/execwrapper.sh \
+ && echo "set -e" >> /bin/execwrapper.sh \
+ && echo "source /opt/anaconda/bin/activate base" >> /bin/execwrapper.sh \
+ && echo "exec \"\$@\"" >> /bin/execwrapper.sh \
+ && chmod +x /bin/execwrapper.sh
+
+# execute any command with sourcing anaconda environment first
+ENTRYPOINT ["/bin/execwrapper.sh"]
+
+# without specifying any command, then just run zsh
+CMD ["/bin/zsh"]
 
 # vim:ft=dockerfile
