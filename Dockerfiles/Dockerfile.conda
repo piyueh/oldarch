@@ -19,7 +19,7 @@ RUN cd /root \
  && sh $CONDAEXE -b -f -p /opt/anaconda \
  && rm $CONDAEXE \
  && source /opt/anaconda/bin/activate base \
- && conda install -y pytorch-gpu h5py \
+ && conda install -y pytorch-gpu h5py scipy mpi4py \
  && conda clean --all
 
 # persistent variables (for both image creation and runtime)
