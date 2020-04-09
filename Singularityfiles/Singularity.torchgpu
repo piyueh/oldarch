@@ -1,0 +1,8 @@
+# Singularity.fancybase
+# See https://github.com/piyueh/oldarch
+
+Bootstrap: docker
+From: pychuang/oldarch:torchgpu20160801
+IncludeCMD: yes
+
+# vim:ft=singularity
