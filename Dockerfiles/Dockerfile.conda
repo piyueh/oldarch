@@ -13,13 +13,14 @@ FROM pychuang/oldarch:fancybase20160801
 RUN cd /root \
  && export CONDAURL="https://repo.anaconda.com/miniconda" \
  && export CONDAEXE="Miniconda3-latest-Linux-x86_64.sh"\
- && export CONDASHA="bfe34e1fa28d6d75a7ad05fd02fa5472275673d5f5621b77380898dee1be15d2" \
+ && export CONDASHA="957d2f0f0701c3d1335e3b39f235d197837ad69a944fa6f5d8ad2c686b69df3b" \
  && curl -LO "$CONDAURL/$CONDAEXE"  \
  && echo "$CONDASHA $CONDAEXE" | sha256sum -c \
  && sh $CONDAEXE -b -f -p /opt/anaconda \
  && rm $CONDAEXE \
  && source /opt/anaconda/bin/activate base \
- && conda install -y pytorch-gpu h5py scipy mpi4py \
+ && conda install pytorch torchvision cudatoolkit=10.1 -c pytorch \
+ && conda install h5py matplotlib scipy mpi4py \
  && conda clean --all
 
 # persistent variables (for both image creation and runtime)

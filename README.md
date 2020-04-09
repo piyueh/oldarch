@@ -132,16 +132,16 @@ To build the image locally:
 $ docker build -t oldarch:deluxe20160801 Dockerfile.deluxe .
 ```
 
-## Image with PyTorch (v1.3.1 gpu version), h5py and miniconda
+## Image with PyTorch (v1.4.0), h5py, matplotlib, scipy, mpi4py and miniconda
 
-This image adds miniconda, PyTorch, and h5py to `fancybase20160801` image.
+This image adds miniconda, PyTorch, matplotlib, scipy, mpi4py, and h5py to 
+`fancybase20160801` image.
 The whole python ecosystem in this image is provided by the miniconda installed,
 and the base environment is activate by default no matter it's a login shell
 or not.
 Python version is 3.7.
-The purpose of this image is to run things at remote HPC clusters, so the image
-does not have any extra python packages except the dependencies of miniconda, 
-pytorch, and h5py.
+The purpose of this image is to run things at remote HPC clusters for my own
+projects, so the image does not have any extra python packages that I don't need. 
 Due to the cuda and mkl libraries, the image size is not trivial. So, be aware.
 
 To pull the image from Docker Hub:
