@@ -12,8 +12,8 @@ FROM pychuang/oldarch:fancybase20160801
 # download miniconda and install it
 RUN cd /root \
  && export CONDAURL="https://repo.anaconda.com/miniconda" \
- && export CONDAEXE="Miniconda3-latest-Linux-x86_64.sh"\
- && export CONDASHA="957d2f0f0701c3d1335e3b39f235d197837ad69a944fa6f5d8ad2c686b69df3b" \
+ && export CONDAEXE="Miniconda3-py37_4.8.3-Linux-x86_64.sh"\
+ && export CONDASHA="bb2e3cedd2e78a8bb6872ab3ab5b1266a90f8c7004a22d8dc2ea5effeb6a439a" \
  && curl -LO "$CONDAURL/$CONDAEXE"  \
  && echo "$CONDASHA $CONDAEXE" | sha256sum -c \
  && sh $CONDAEXE -b -f -p /opt/anaconda \
